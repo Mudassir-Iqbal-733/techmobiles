@@ -42,7 +42,7 @@ const Filter = () => {
         params.append("storage", debouncedFilters.storage.join(","));
 
       const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_API_URL}/products/filters?${params.toString()}`
+        `${import.meta.env.VITE_API_URL}/products/filters?${params.toString()}`
       );
 
       setProducts(response.data.products);
