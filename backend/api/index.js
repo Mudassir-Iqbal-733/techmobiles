@@ -14,34 +14,38 @@ const dashboardRouter = require('../routes/admin/dashboard.route');
 
 const app = express();
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
+// ✅ Apply CORS first (before routes)
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "http://localhost:5174/",
+    "http://localhost:5174",
     "https://techmobiles-frontend.vercel.app",
     "https://techmobiles-admin-seven.vercel.app"
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
-connectDB();
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running on port ${process.env.PORT || 3000}`);
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.send('🚀 Hello from Express + MongoDB on Vercel!');
-});
-
+// ✅ Routes
 app.use('/products', productRoutes);
 app.use('/user', userRoutes);
 app.use('/order', orderRoutes);
 app.use('/admin', dashboardRouter);
 
-// Export for Vercel serverless
+// ✅ Root route
+app.get('/', (req, res) => {
+  res.send('🚀 TechMobiles Backend is Running with CORS Enabled!');
+});
+
+// ✅ Connect DB (only once)
+connectDB();
+
+// ❌ REMOVE app.listen() – not used on Vercel
+
+// ✅ Export handler for Vercel
 module.exports = app;
 module.exports.handler = serverless(app);
