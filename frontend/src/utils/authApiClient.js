@@ -3,7 +3,7 @@ import store from '../redux/Store';
 
 // Create axios instance
 const authApiClient = axios.create({
-    baseURL: import.meta.env.VITE_SERVER_API_URL,
+    baseURL: import.meta.env.VITE_API_URL,
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
