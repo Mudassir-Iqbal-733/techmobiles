@@ -24,11 +24,11 @@ app.use(cors({
 }));
 
 
-app.use('/api/products', productRoutes);
-app.use('/api/user', userRoutes );
-app.use('/api/order', orderRoutes );
+app.use('/products', productRoutes);
+app.use('/user', userRoutes );
+app.use('/order', orderRoutes );
 
-app.use('/api/admin', dashboardRouter );
+app.use('/admin', dashboardRouter );
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URL).then(() => {
