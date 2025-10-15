@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // API Base
-const API_URL = `${import.meta.env.VITE_API_URL}/user/admin-login`;
+const API_URL = import.meta.env.VITE_API_URL
 
 // Load saved auth info from localStorage
 const storedToken = localStorage.getItem("authToken");
