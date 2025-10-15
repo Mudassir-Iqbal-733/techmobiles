@@ -106,7 +106,7 @@ const UserOrdersPage = () => {
     const fetchOrders = async () => {
       try {
         setLoading(true);
-        const response = await authApiClient.get("/api/order/user-orders");
+        const response = await authApiClient.get("/order/user-orders");
         setOrders(response.data);
       } catch (error) {
         message.error(error.response?.data?.message || "Failed to fetch orders");
