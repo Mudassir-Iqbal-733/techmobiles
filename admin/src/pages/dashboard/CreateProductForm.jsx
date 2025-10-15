@@ -106,7 +106,7 @@ const CreateProductForm = () => {
       const imageUrls = images.map((obj) => Object.values(obj)[0]);
       const productData = { ...values, description, images: imageUrls };
 
-      await axios.post("http://localhost:3000/api/products/create", productData, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/products/create`, productData, {
         headers: { "Content-Type": "application/json" },
       });
 

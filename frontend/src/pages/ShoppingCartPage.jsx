@@ -46,7 +46,7 @@ const ShoppingCartPage = () => {
         discountedPrice: total
       }
 
-      const response = await axios.post('http://localhost:3000/api/order/create', orderData, {
+      const response = await axios.post('/order/create', orderData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`

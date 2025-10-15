@@ -96,7 +96,7 @@ const Products = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:3000/api/products/all");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/products/all`);
         if (Array.isArray(res.data)) {
           setProducts(res.data);
         } else {

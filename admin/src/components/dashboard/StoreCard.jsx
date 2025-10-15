@@ -54,7 +54,7 @@ const StoreCard = () => {
       console.log("Token before request:", token);
 
       try {
-        const response = await axios.get("http://localhost:3000/api/admin/totalCards", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/admin/totalCards`, {
           headers: {
             Authorization: `Bearer ${token}`, // ✅ correct header format
           },

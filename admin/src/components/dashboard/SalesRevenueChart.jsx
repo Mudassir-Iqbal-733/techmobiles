@@ -31,7 +31,7 @@ const SalesRevenueChart = () => {
 
     const fetchSalesRevenue = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/admin/totalSalesRevenue", {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/totalSalesRevenue`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
