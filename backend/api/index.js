@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const serverless = require('serverless-http');
+const connectDB = require('../config/db');
 
 // Routes
 const productRoutes = require('../routes/products.route');
@@ -22,20 +23,19 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
-// Routes
-app.get('/', (req, res) => {
-  res.send('🚀 Hello from Express on Vercel!');
+connectDB();
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });
+
+app.get('/', (req, res) => {
+  res.send('🚀 Hello from Express + MongoDB on Vercel!');
+});
+
 app.use('/products', productRoutes);
 app.use('/user', userRoutes);
 app.use('/order', orderRoutes);
 app.use('/admin', dashboardRouter);
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URL)
-  .then(() => console.log('✅ Connected to MongoDB'),
-   app.listen(process.env.PORT)) 
-  .catch((error) => console.error('❌ Error connecting to MongoDB:', error));
 
 // Export for Vercel serverless
 module.exports = app;
