@@ -41,9 +41,12 @@ const Profile = () => {
     }
   };
 
-  useEffect(() => {
+ useEffect(() => {
+  if (token && userId) {
     fetchUser();
-  }, [token]);
+  }
+}, [token, userId]);
+
 
   if (!token) {
     return (

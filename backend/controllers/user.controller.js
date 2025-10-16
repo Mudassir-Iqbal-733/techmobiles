@@ -39,58 +39,33 @@ const Signup = async (req, res) => {
   }
 };
 
-// ✅ GET SINGLE USER BY ID (Admin or Self)
 const getUserById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id === "me" ? req.userId : req.params.id; // <-- handle "me"
     const user = await User.findById(id).select("name email role createdAt updatedAt");
-    if (!user) {
-      return res.status(404).json({ status: "Failed", message: "User not found" });
-    }
-
+    if (!user) return res.status(404).json({ status: "Failed", message: "User not found" });
     res.status(200).json({ status: "OK", user });
   } catch (error) {
-    res.status(500).json({
-      status: "Failed",
-      message: "Server error",
-      error: error.message,
-    });
+    res.status(500).json({ status: "Failed", message: "Server error", error: error.message });
   }
 };
 
-// ✅ UPDATE USER NAME BY ID
 const updateUserName = async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id === "me" ? req.userId : req.params.id; // <-- handle "me"
     const { name } = req.body;
+    if (!name) return res.status(400).json({ status: "Failed", message: "Name is required" });
 
-    if (!name) {
-      return res.status(400).json({ status: "Failed", message: "Name is required" });
-    }
+    const updatedUser = await User.findByIdAndUpdate(id, { name }, { new: true }).select("name email role");
+    if (!updatedUser) return res.status(404).json({ status: "Failed", message: "User not found" });
 
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      { name },
-      { new: true }
-    ).select("name email role");
-
-    if (!updatedUser) {
-      return res.status(404).json({ status: "Failed", message: "User not found" });
-    }
-
-    res.status(200).json({
-      status: "OK",
-      message: "User name updated successfully",
-      user: updatedUser,
-    });
+    res.status(200).json({ status: "OK", message: "User name updated successfully", user: updatedUser });
   } catch (error) {
-    res.status(500).json({
-      status: "Failed",
-      message: "Server error",
-      error: error.message,
-    });
+    res.status(500).json({ status: "Failed", message: "Server error", error: error.message });
   }
 };
+
+
 
 
 const login = async(req,res)=>{
