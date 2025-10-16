@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Rate } from "antd";
 import { ArrowRight } from "lucide-react";
 import newarrival from "../images/newarrival.png";
+import { useNavigate } from "react-router-dom";
 
 const products = [
   {
@@ -31,28 +32,32 @@ const products = [
 ];
 
 const NewArrivals = () => {
+  const navigate = useNavigate();
   return (
     <div className="p-6 md:p-12 max-w-7xl mx-auto">
       {/* Title */}
-      <h2 className="text-2xl md:text-3xl font-bold mb-6 dark:text-white">
+      <h2 className="text-2xl md:text-3xl font-bold mb-6">
         New Arrivals
       </h2>
 
       {/* Responsive Layout */}
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* ✅ Left Side: Image Section */}
-        <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl flex-1 relative overflow-hidden">
-          <div className="absolute top-6 left-6 z-10">
-            <h3 className="text-xl md:text-2xl font-semibold mb-4 ps-10 dark:text-white">
-              Samsung Galaxy Note20 Ultra 5G
-            </h3>
-          </div>
-          <img
-            src={newarrival}
-            alt="Samsung Galaxy Note20 Ultra 5G"
-            className="w-full h-80 md:h-full object-contain md:object-cover rounded-2xl"
-          />
-        </div>
+    {/* ✅ Left Side: Image Section */}
+<div className="bg-gray-100 rounded-2xl flex-1 relative overflow-hidden">
+  {/* ✅ Top-Centered Text (No Background, Single Line, Responsive) */}
+  <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-center z-10 w-full px-2">
+    <h3 className="text-sm sm:text-lg md:text-2xl font-semibold text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis">
+      Samsung Galaxy Note20 Ultra 5G
+    </h3>
+  </div>
+
+  {/* ✅ Image Full Width + Height */}
+  <img
+    src={newarrival}
+    alt="Samsung Galaxy Note20 Ultra 5G"
+    className="w-full h-80 md:h-full object-cover rounded-2xl"
+  />
+</div>
 
         {/* ✅ Right Side: Product List */}
 <div className="flex-1">
@@ -91,6 +96,7 @@ const NewArrivals = () => {
     icon={<ArrowRight />}
     style={{ backgroundColor: "#06b6d4", borderColor: "#06b6d4" }}
     className="w-full mt-6"
+    onClick={()=>navigate("/filter")}
   >
     View All Products
   </Button>

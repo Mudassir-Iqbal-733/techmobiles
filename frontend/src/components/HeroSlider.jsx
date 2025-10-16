@@ -1,15 +1,17 @@
-import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import image1 from "../images/image1.png";
 import image2 from "../images/image2.png";
 import image3 from "../images/image3.png";
+import { use } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HeroSlider = () => {
   const [emblaRef] = useEmblaCarousel(
     { loop: true },
     [Autoplay({ delay: 3000 })]
   );
+ const navigate = useNavigate()
 
   const slides = [
     {
@@ -48,23 +50,23 @@ const HeroSlider = () => {
           >
             {/* ✅ responsive center fix */}
             <img
-  src={slide.image}
-  alt={slide.title}
-  className="w-full h-[400px] object-cover object-right md:h-[600px] md:object-right mx-auto"
-/>
+              src={slide.image}
+              alt={slide.title}
+              className="w-full h-[400px] object-cover object-right md:h-[600px] md:object-right mx-auto"
+            />
 
             {/* Overlay */}
             <div className="absolute inset-0 bg-black/20" />
 
             {/* Text + Button */}
             <div className="absolute top-1/2 left-16 transform -translate-y-1/2 text-white z-10 max-w-lg">
-              <h2 className="text-4xl font-bold mb-4 drop-shadow-lg sm:text-3xl text-2xl">
+              <h2 className="font-bold mb-4 drop-shadow-lg sm:text-3xl text-2xl">
                 {slide.title}
               </h2>
-              <p className="text-lg mb-6 drop-shadow-lg sm:text-base text-sm">
+              <p className="mb-6 drop-shadow-lg sm:text-base text-sm">
                 {slide.description}
               </p>
-              <button className="bg-white text-black px-8 py-3 rounded-lg hover:bg-opacity-90 transition-all text-sm sm:text-base">
+              <button onClick={()=>{navigate("/filter")}} className="bg-white text-black px-8 py-3 rounded-lg hover:bg-opacity-90 transition-all text-sm sm:text-base">
                 {slide.buttonText}
               </button>
             </div>
