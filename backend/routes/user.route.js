@@ -9,8 +9,8 @@ router.post("/signup", Signup);
 router.post("/login", login);
 router.post("/admin-login", AdminLogin);
 
-router.get("/me",  getUserById);
-router.put("/me", updateUserName);
+router.get("/me", AuthCheck, getUserById);
+router.put("/me", AuthCheck, updateUserName);
 
 
 module.exports = router;

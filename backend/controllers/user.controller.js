@@ -41,9 +41,12 @@ const Signup = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
-    const id = req.params.id === "me" ? req.userId : req.params.id; // <-- handle "me"
+    // If req.params.id is undefined or "me", use req.userId from AuthCheck
+    const id = req.params.id && req.params.id !== "me" ? req.params.id : req.userId;
+
     const user = await User.findById(id).select("name email role createdAt updatedAt");
     if (!user) return res.status(404).json({ status: "Failed", message: "User not found" });
+
     res.status(200).json({ status: "OK", user });
   } catch (error) {
     res.status(500).json({ status: "Failed", message: "Server error", error: error.message });
@@ -52,8 +55,9 @@ const getUserById = async (req, res) => {
 
 const updateUserName = async (req, res) => {
   try {
-    const id = req.params.id === "me" ? req.userId : req.params.id; // <-- handle "me"
+    const id = req.params.id && req.params.id !== "me" ? req.params.id : req.userId;
     const { name } = req.body;
+
     if (!name) return res.status(400).json({ status: "Failed", message: "Name is required" });
 
     const updatedUser = await User.findByIdAndUpdate(id, { name }, { new: true }).select("name email role");
@@ -64,6 +68,7 @@ const updateUserName = async (req, res) => {
     res.status(500).json({ status: "Failed", message: "Server error", error: error.message });
   }
 };
+
 
 
 

@@ -11,7 +11,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  // Fetch profile from backend /me
+  // Fetch profile from backend /user/me
   const fetchUser = async () => {
     if (!token) return;
     try {
@@ -41,12 +41,9 @@ const Profile = () => {
     }
   };
 
- useEffect(() => {
-  if (token && userId) {
-    fetchUser();
-  }
-}, [token, userId]);
-
+  useEffect(() => {
+    if (token) fetchUser(); // no userId needed
+  }, [token]);
 
   if (!token) {
     return (
