@@ -29,7 +29,7 @@ const Navbar = () => {
         `${import.meta.env.VITE_API_URL}/products/search?name=${searchQuery}`
       );
       // 👇 Pass results to search page via state
-      navigate("/filters", { state: { results: res.data.products } });
+      navigate("/filter", { state: { results: res.data.products } });
     } catch (err) {
       console.error("Search failed:", err.message);
     }
