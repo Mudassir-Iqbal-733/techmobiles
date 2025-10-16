@@ -6,19 +6,17 @@ import authApiClient from "../utils/authApiClient";
 
 const Profile = () => {
   const token = useSelector((state) => state.auth?.token);
-  const storedUser = JSON.parse(localStorage.getItem("authUser"));
-  const userId = useSelector((state) => state.auth?.userId) || storedUser?._id;
-
   const [user, setUser] = useState(null);
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  // Fetch profile from backend /me
   const fetchUser = async () => {
-    if (!token || !userId) return; // Safety check
+    if (!token) return;
     try {
       setLoading(true);
-      const res = await authApiClient.get(`/user/${userId}`);
+      const res = await authApiClient.get("/user/me"); // ✅ /me route
       setUser(res.data.user);
       setName(res.data.user.name);
     } catch (err) {
@@ -33,7 +31,7 @@ const Profile = () => {
 
     try {
       setSaving(true);
-      const res = await authApiClient.put(`/user/${userId}`, { name });
+      const res = await authApiClient.put("/user/me", { name }); // ✅ /me route
       setUser(res.data.user);
       message.success("Profile updated successfully!");
     } catch (err) {
@@ -45,7 +43,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchUser();
-  }, [token, userId]);
+  }, [token]);
 
   if (!token) {
     return (
