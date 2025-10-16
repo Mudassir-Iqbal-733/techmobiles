@@ -47,4 +47,5 @@ connectDB();
 // ❌ REMOVE app.listen() – not used on Vercel
 
 // ✅ Export handler for Vercel
-module.exports = serverless(app);
+module.exports = app;
+module.exports.handler = serverless(app);
