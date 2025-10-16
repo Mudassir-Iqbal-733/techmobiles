@@ -1,16 +1,39 @@
 import React, { useState } from "react";
 import { ShoppingCart, User, Search, Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/AuthSlice";
+import axios from "axios";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const cart = useSelector((state) => state.cartState.cart);
   const { isLogin, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setDropdownOpen(false);
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/products/search?name=${searchQuery}`
+      );
+      // 👇 Pass results to search page via state
+      navigate("/filters", { state: { results: res.data.products } });
+    } catch (err) {
+      console.error("Search failed:", err.message);
+    }
+  };
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -18,11 +41,6 @@ const Navbar = () => {
     { name: "FAQ", path: "/faq" },
     { name: "Contact", path: "/contact" },
   ];
-
-  const handleLogout = () => {
-    dispatch(logout());
-    setDropdownOpen(false);
-  };
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -39,22 +57,39 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className="text-gray-700 hover:text-cyan-400 "
+                className="text-gray-700 hover:text-cyan-400"
               >
                 {link.name}
               </Link>
             ))}
           </div>
 
+          {/* Search Bar */}
+          <form onSubmit={handleSearch} className="relative hidden md:flex">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="border rounded-l-md px-3 py-1 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="bg-cyan-500 px-3 py-1 rounded-r-md text-white hover:bg-cyan-600"
+            >
+              <Search className="w-4 h-4" />
+            </button>
+          </form>
+
           {/* Icons */}
           <div className="flex items-center space-x-4 relative">
-            <Search className="w-5 h-5 text-gray-700 cursor-pointer" />
-
             <div className="relative cursor-pointer">
-              <ShoppingCart className="w-5 h-5 text-gray-700 " />
-             <Link to="/orders"> <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
-                {cart.length}
-              </span></Link>
+              <ShoppingCart className="w-5 h-5 text-gray-700" />
+              <Link to="/orders">
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
+                  {cart.length}
+                </span>
+              </Link>
             </div>
 
             {/* User / Dropdown */}
