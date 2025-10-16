@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ShoppingCart, User, Search, Menu, X } from "lucide-react";
-import { Link, Links } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../images/logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/AuthSlice";
@@ -14,10 +14,8 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Category", path: "/category" },
     { name: "About Us", path: "/about" },
     { name: "FAQ", path: "/faq" },
-    { name: "Blog", path: "/blog" },
     { name: "Contact", path: "/contact" },
   ];
 

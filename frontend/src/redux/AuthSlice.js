@@ -16,14 +16,18 @@ export const loginUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${API_URL}/login`, credentials);
-      return response.data; // expected { user, token }
+      return response.data; 
+      
+      // expected { user, token }
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Login failed. Please try again."
       );
     }
+    
   }
 );
+
 
 // Signup
 export const signupUser = createAsyncThunk(
@@ -47,6 +51,7 @@ const authSlice = createSlice({
     user: storedUser ? JSON.parse(storedUser) : null,
     token: storedToken || null,
     loading: false,
+    role : storedUser ? JSON.parse(storedUser).role : null,
     isLogin: !!storedToken,
     error: null,
   },
@@ -69,6 +74,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
+        state.role = action.payload.role;
         state.token = action.payload.token;
         state.isLogin = true;
         state.error = null;

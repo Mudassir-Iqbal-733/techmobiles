@@ -6,6 +6,7 @@ const {
   deleteProduct,
   updateProduct,
   filterProducts,
+  searchProducts,
 } = require('../controllers/products.controller');
 const AuthCheck = require('../middlewares/auth.middleware');
 
@@ -20,6 +21,9 @@ router.delete('/:id', deleteProduct);
 
 // Update a product by ID
 router.put('/:id', updateProduct);
+
+//search products by name or brand
+router.get('/search', searchProducts);
 
 router.get('/filters', filterProducts);
 

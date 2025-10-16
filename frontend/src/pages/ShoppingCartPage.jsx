@@ -46,7 +46,7 @@ const ShoppingCartPage = () => {
         discountedPrice: total
       }
 
-      const response = await axios.post('/order/create', orderData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/order/create`, orderData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -76,7 +76,7 @@ const ShoppingCartPage = () => {
       });
       throw error;
     }
-  }
+  };
 
   return (
     <>

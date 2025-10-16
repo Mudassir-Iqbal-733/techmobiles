@@ -20,6 +20,32 @@ const getAllProducts = async (req, res) => {
   }
 };
 
+//search products by name or category
+
+const searchProducts = async (req, res) => {
+  const { query } = req;
+
+  let filter = {};
+
+  if (query.name) {
+    filter.name = { $regex: query.name, $options: 'i' }; // Case-insensitive search
+  }
+
+  if (query.brand) {
+    filter.brand = { $regex: query.brand, $options: 'i' };
+  }
+
+  try {
+    const products = await Product.find(filter);
+    return res.status(200).json({
+      success: true,
+      products: products
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
 // Delete a product by ID
 const deleteProduct = async (req, res) => {
   try {
@@ -97,4 +123,5 @@ module.exports = {
   deleteProduct,
   filterProducts,
   updateProduct,
+  searchProducts
 };
