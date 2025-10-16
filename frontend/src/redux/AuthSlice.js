@@ -50,6 +50,7 @@ const authSlice = createSlice({
   initialState: {
     user: storedUser ? JSON.parse(storedUser) : null,
     token: storedToken || null,
+    userId: storedUser ? JSON.parse(storedUser)._id : null,
     loading: false,
     role : storedUser ? JSON.parse(storedUser).role : null,
     isLogin: !!storedToken,
@@ -74,6 +75,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
+        state.userId = action.payload.user._id;
         state.role = action.payload.role;
         state.token = action.payload.token;
         state.isLogin = true;
