@@ -94,7 +94,7 @@ const Filter = () => {
         {/* Products Section */}
         <div className="lg:col-span-5 w-full p-4 md:p-6">
           <div className="mb-4">
-            <SortByDropdown />
+           <SortByDropdown onSearchResults={(results) => setProducts(results)} />
           </div>
           <ProductsSection products={products} loading={loading} />
         </div>

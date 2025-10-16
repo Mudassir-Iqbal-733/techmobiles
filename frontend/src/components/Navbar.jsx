@@ -1,38 +1,20 @@
 import React, { useState } from "react";
-import { ShoppingCart, User, Search, Menu, X } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { ShoppingCart, User, Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import logo from "../images/logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/AuthSlice";
-import axios from "axios";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const cart = useSelector((state) => state.cartState.cart);
   const { isLogin, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
     setDropdownOpen(false);
-  };
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/products/search?name=${searchQuery}`
-      );
-      // 👇 Pass results to search page via state
-      navigate("/filter", { state: { results: res.data.products } });
-    } catch (err) {
-      console.error("Search failed:", err.message);
-    }
   };
 
   const navLinks = [
@@ -63,23 +45,6 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
-
-          {/* Search Bar */}
-          <form onSubmit={handleSearch} className="relative hidden md:flex">
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="border rounded-l-md px-3 py-1 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="bg-cyan-500 px-3 py-1 rounded-r-md text-white hover:bg-cyan-600"
-            >
-              <Search className="w-4 h-4" />
-            </button>
-          </form>
 
           {/* Icons */}
           <div className="flex items-center space-x-4 relative">
