@@ -91,7 +91,7 @@ const StoreCard = () => {
           {
             icon: Users,
             title: "Visitors",
-            value: "820,100",
+            value: "300",
             change: 8,
             today: 120,
             bgcolor: "#FFCCE1",
@@ -100,7 +100,7 @@ const StoreCard = () => {
           {
             icon: RotateCcw,
             title: "Refunded",
-            value: "21,980",
+            value: "580",
             change: -4,
             today: 31,
             bgcolor: "#B3C8CF",
